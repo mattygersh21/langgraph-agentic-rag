@@ -1,3 +1,4 @@
+from pathlib import Path
 from dotenv import load_dotenv
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
@@ -5,6 +6,10 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_openai import OpenAIEmbeddings
 
 load_dotenv()
+
+# Get the project root directory (where this file is located)
+PROJECT_ROOT = Path(__file__).parent
+CHROMA_DIR = PROJECT_ROOT / ".chroma"
 
 # urls = [
 #     "https://lilianweng.github.io/posts/2023-06-23-agent/",
@@ -24,11 +29,11 @@ load_dotenv()
 #     documents=doc_splits,
 #     collection_name="rag-chroma",
 #     embedding=OpenAIEmbeddings(),
-#     persist_directory="./.chroma",
+#     persist_directory=str(CHROMA_DIR),
 # )
 
 retriever = Chroma(
     collection_name="rag-chroma",
-    persist_directory="./.chroma",
+    persist_directory=str(CHROMA_DIR),
     embedding_function=OpenAIEmbeddings(),
 ).as_retriever()
